@@ -5,17 +5,16 @@
 	<title>Weiterleitungen</title>
 	<script type="text/javascript">
 		window.onload = function () {
-			var path = window.location.pathname;
+			var urlParams = new URLSearchParams(window.location.search);
+			var redirect = urlParams.get('r');
 			var redirects;
 			var xhr = new XMLHttpRequest();
 			xhr.onreadystatechange = function () {
 				if (xhr.readyState === 4 && xhr.status === 200) {
 					redirects = JSON.parse(xhr.responseText);
-					if (redirects[path]) {
-						window.location.replace(redirects[path]);
-					} else {
-						window.location.replace('https://www.google.com/search?q=' + encodeURIComponent(path));
-					}
+					if (redirects[redirect]) {
+						window.location.replace(redirects[redirect]);
+					} 
 				}
 			};
 			xhr.open('GET', 'redirects.json', true);
