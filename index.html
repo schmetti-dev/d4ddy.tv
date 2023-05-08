@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Weiterleitungen</title>
+	<script type="text/javascript">
+		window.onload = function () {
+			var path = window.location.pathname;
+			var redirects;
+			var xhr = new XMLHttpRequest();
+			xhr.onreadystatechange = function () {
+				if (xhr.readyState === 4 && xhr.status === 200) {
+					redirects = JSON.parse(xhr.responseText);
+					if (redirects[path]) {
+						window.location.replace(redirects[path]);
+					} else {
+						window.location.replace('https://www.google.com/search?q=' + encodeURIComponent(path));
+					}
+				}
+			};
+			xhr.open('GET', 'redirects.json', true);
+			xhr.send();
+		};
+	</script>
+</head>
+<body>
+	<p>Die Seite wird automatisch weitergeleitet. Wenn die automatische Weiterleitung nicht funktioniert, klicken Sie bitte <a href="https://example.com">hier</a>.</p>
+</body>
+</html>
